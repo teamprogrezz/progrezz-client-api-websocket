@@ -16,30 +16,25 @@ Then, add some callbacks to it:
 ```javascript
 /* Called when the websocket is being opened. */
 ws.onOpen = function(event) {
-  document.getElementById("connect_btn").disabled = true;
-  document.getElementById("disconnect_btn").disabled = false;
-  append_response("Connected");
+  // Do whatever
+  whatever_open("Connected");
 }
 
 /* Called when the websocket is being closed. */
 ws.onClose   = function(event) {
-  document.getElementById("connect_btn").disabled = false;
-  document.getElementById("disconnect_btn").disabled = true;
-  append_response("Disconnected");
+  // Do whatever
+  whatever_close("Disconnected");
 }
 
 /* This will be called when some error occurs.*/
 ws.onError   = function(error) {
-  // Use ProgrezzWS.StringifyError() to stringify the error.
-  append_response("<span style='color: red'>" + ProgrezzWS.StringifyError(error) + "</span>");
+  // Do whatever (use ProgrezzWS.StringifyError() to stringify the error).
+  whatever_error("<span style='color: red'>" + ProgrezzWS.StringifyError(error) + "</span>");
 }
 
-/* This is the most important method! It will be called as a callback when the server respond us with some information. A JSON object should be recieved. */
+/* This is the most important method! It will be called as a callback when the server respond us with some information. A JSON object should always be recieved. */
 ws.onMessage = function(msg_json) {
-  try        { msg_json = JSON.stringify( msg_json ); }
-  catch(err) { console.warn("Could not stringify."); }
-  
-  append_response( msg_json );
+  whatever_message( msg_json );
 }
 ```
 
