@@ -17,7 +17,7 @@
   
   <script type="text/javascript">
     // Helper para anidar mensajes de respuesta
-    function append_msg(msg) {
+    function append_response(msg) {
       msg_count++;
       document.getElementById("output").innerHTML = "<pre>" + msg_count + ". " + msg + "</pre>" + document.getElementById("output").innerHTML;
     }
@@ -31,24 +31,24 @@
     ws.onOpen    = function(event) {
       document.getElementById("connect_btn").disabled = true;
       document.getElementById("disconnect_btn").disabled = false;
-      append_msg("Connected");
+      append_response("Connected");
     }
     
     ws.onClose   = function(event) {
       document.getElementById("connect_btn").disabled = false;
       document.getElementById("disconnect_btn").disabled = true;
-      append_msg("Disconnected");
+      append_response("Disconnected");
     }
     
     ws.onError   = function(error) {
-      append_msg("<span style='color: red'>" + ProgrezzWS.StringifyError(error) + "</span>");
+      append_response("<span style='color: red'>" + ProgrezzWS.StringifyError(error) + "</span>");
     }
     
     ws.onMessage = function(msg_json) {
       try        { msg_json = JSON.stringify( msg_json ); }
       catch(err) { console.warn("Could not stringify."); }
       
-      append_msg( msg_json );
+      append_response( msg_json );
     }
     
     // Conectar
