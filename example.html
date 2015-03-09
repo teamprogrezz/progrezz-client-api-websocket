@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>WebSocket API example</title>
+	<meta http-equiv="content-type" content="text/html;charset=utf-8" />
+  <script type="text/javascript" src="js/progrezz-api-websocket.js"></script>
+</head>
+
+<body>
+  <form id="usrform">
+    <h2>WebSocket message:</h2><br>
+    <input id="connect_btn" type="button" value="Connect" onclick="connect();" ><input id="disconnect_btn" type="button" value="Disconnect" onclick="disconnect();" disabled ><br>
+    <textarea id="form_request_str" width="100" rows="2" name="comment" form="usrform" style="width:100%;"></textarea><br>
+    <input type="button" value="Send request" onclick="send_form();" >
+  </form>
+  
+  <script type="text/javascript">
+    // Helper para anidar mensajes de respuesta
+    function append_msg(msg) {
+      msg_count++;
+      document.getElementById("output").innerHTML = "<pre>" + msg_count + ". " + msg + "</pre>" + document.getElementById("output").innerHTML;
+    }
+    
+    var msg_count = 0;
+    
+    // Iniciar objeto websocket
+    var ws = new ProgrezzWS();
+    
+    // Asociar callbacks
+    ws.onOpen    = function(event) {
+      document.getElementById("connect_btn").disabled = true;
+      document.getElementById("disconnect_btn").disabled = false;
+      append_msg("Connected");
+    }
+    
+    ws.onClose   = function(event) {
+      document.getElementById("connect_btn").disabled = false;
+      document.getElementById("disconnect_btn").disabled = true;
+      append_msg("Disconnected");
+    }
+    
+    ws.onError   = function(error) {
+      append_msg("<span style='color: red'>" + ProgrezzWS.StringifyError(error) + "</span>");
+    }
+    
+    ws.onMessage = function(msg_json) {
+      try        { msg_json = JSON.stringify( msg_json ); }
+      catch(err) { console.warn("Could not stringify."); }
+      
+      append_msg( msg_json );
+    }
+    
+    // Conectar
+    function connect() {   
+      // Abrir socket
+      ws.open( "wss://echo.websocket.org" ); // ¡DEBE LLAMARSE SIEMPRE DESPUÉS DE CARGAR EL CONTENIDO! (window.onload, por ejemplo).
+      // Usando ws.open() sin argumentos, se intentará conectar a Progrezz.WS.DEFAULT.URL
+    }
+    
+    // Desconectar
+    function disconnect() {
+      ws.close()
+    }
+   
+    // Enviar mensaje!
+    function send_form() {
+      ws.send( document.getElementById('form_request_str').value )
+    }
+  </script>
+
+  <h2>Server responses</h2>
+  <hr>
+  <div id="output"></div>
+  
+</body>
+</html>
