@@ -102,7 +102,7 @@ ProgrezzWS.prototype.open = function(url) {
   this.ws = new WebSocket( url );
   
   this.ws.onopen    = function(event) { if (self.onOpen != null) self.onOpen(event); } 
-  this.ws.onclose   = function(event) { if (self.onClose != null) self.onClose(event); } 
+  this.ws.onclose   = function(event) { this.ws = null; if (self.onClose != null) self.onClose(event); } 
   this.ws.onerror   = function(event) { if (self.onMessage != null) self.onError(event); }
   
   this.ws.onmessage = function(event) {
@@ -131,6 +131,7 @@ ProgrezzWS.prototype.close = function() {
     return;
   
   this.ws.close();
+  this.ws = null;
 }
 
 // Función para enviar mensajes
