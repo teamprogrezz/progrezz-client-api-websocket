@@ -20,18 +20,13 @@ ProgrezzWS.DEFAULT = function() { };
 // Constantes
 ProgrezzWS.DEFAULT.REQUEST        = { type: "echo", data: { name: "world" } };
 ProgrezzWS.DEFAULT.URL            = "/dev/api/websocket";
-ProgrezzWS.DEFAULT.TIMESTAMP_FUNC = function() { return new Date().getTime() };
 ProgrezzWS.DEFAULT.TYPE           = "json";
 
 // Plantilla por defecto
 ProgrezzWS.getTemplateRequest = function() {  
   return {
-    metadata: {
-      timestamp:    ProgrezzWS.DEFAULT.TIMESTAMP_FUNC(), // Marca de fecha actual, en ms
-      type:         ProgrezzWS.DEFAULT.TYPE              // Tipo de archivo solicitado (json, xml, plain-text, ...)
-      /* ... */
-    },
-    request: ProgrezzWS.DEFAULT.REQUEST             // Petición por defecto
+    type:    ProgrezzWS.DEFAULT.TYPE,   // Tipo por defecto
+    request: ProgrezzWS.DEFAULT.REQUEST // Petición por defecto
   }
 }
 
