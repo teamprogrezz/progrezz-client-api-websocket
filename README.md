@@ -58,3 +58,5 @@ See *example.html* for more information.
 Our library uses this dependencies:
 
 - [WebSocket](https://www.websocket.org/): The browser or the web app that implements this api client must support WebSockets (HTML5).
+
+
