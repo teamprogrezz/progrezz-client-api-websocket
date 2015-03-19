@@ -38,6 +38,20 @@ ws.onMessage = function(msg_json) {
 }
 ```
 
+Also, you can have 2 extra callbacks that will be executed with ```onMessage ```:
+
+```javascript
+/* Called if response.metadata.type is "system"*/
+ws.onSystemResponse = function(msg_json) {
+  whatever_system( msg_json );
+}
+
+/* Called if response.metadata.type is "response"*/
+ws.onResponse = function(msg_json) {
+  whatever_response( msg_json );
+}
+```
+
 Finally, open the websocket, do what ever, and close it. Keep it open as much as you wish: 
 
 ```javascript
