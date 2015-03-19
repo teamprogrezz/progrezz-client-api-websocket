@@ -4,10 +4,12 @@
 
 ProgrezzWS = function() {
   // Callbacks
-  this.onMessage = null;
-  this.onOpen  = null;
-  this.onClose = null;
-  this.onError = null;
+  this.onMessage          = null;
+    this.onResponse       = null;
+    this.onSystemResponse = null;
+  this.onOpen             = null;
+  this.onClose            = null;
+  this.onError            = null;
   
   // Members
   this.opened = false;
@@ -115,6 +117,15 @@ ProgrezzWS.prototype.open = function(url) {
 
     if (self.onMessage != null )
       self.onMessage( msg );
+
+    // Comprobar si es mensaje de sistema o de respuesta y llamar al callback dado.
+    try {
+      if( msg.metadata.type == "system" && self.onSystemResponse != null )
+        self.onSystemResponse(msg);
+      else if(msg.metadata.type == "response" && self.onResponse != null)
+        self.onResponse(msg);
+    }
+    catch(err) { }
   }
   
   this.opened = true;
